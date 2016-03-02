@@ -1,0 +1,89 @@
+input,
+button {
+    outline: none;
+}
+.cover {
+    background: url("../i/main.jpg") no-repeat;
+    height: 100vh;
+    width: 100%;
+    background-attachment: fixed;
+    display: inline-block;
+
+}
+.btn {
+    background: transparent;
+    padding: 0 10px;
+    border-radius: 9px;
+    border: 1px solid #aaa;
+    cursor: pointer;
+}
+.opacity {
+    opacity: 0.5;
+    background: white;
+    position: fixed;
+    height: 100vh;
+    width: 100%;
+}
+.content {
+    position: relative;
+    z-index: 99;
+}
+html,
+body {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+header {
+    text-align: center;
+    font-size: 22px;
+    color: #45455F;
+    text-transform: uppercase;
+    font-family: Sprite;
+    text-decoration: underline;
+}
+
+.new {
+    margin: auto;
+    width: 560px;
+    input {
+        width: 70%;
+        padding: 7px 30px 6px 34px;
+        height: 22px;
+        line-height: 28px;
+        color: #555;
+        font: 400 13px/1 Arial, 'Nimbus Sans L', Helvetica, sans-serif;
+        border: 1px solid #aaa;
+        background: #FFF;
+        border-radius: 13px;
+    }
+    .btn {
+        display: inline-block;
+        font-size: 22px;
+        color: #565656;
+        border: none;
+        vertical-align: -4px;
+        margin-left: 30px;
+        &:hover {
+            animation: shake-paperplane 0.4s infinite linear alternate;
+        }
+    }
+}
+.pen-style {
+    width: 45%;
+    border: 2px solid black;
+    display: inline-block;
+    &.standart { border-color: #135194;}
+    &.red { border-color: #D81507;}
+    &.green { border-color: #069C0C;}
+    &.black { border-color: #000;}
+    &.grey { border-color: #868686;}
+    &.pink { border-color: #E62265;}
+}
+.icon-pen {
+    margin-left: -5px;
+    font-size: 22px;
+    vertical-align: 1px;
+    color: #565656;
+}
