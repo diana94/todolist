@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html >
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="">
+        <meta name="keywords" content="" >
+        <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+
+        <title></title>
+        <link rel="stylesheet" media="all" href="D:/project/angular/dev/bower_components/ng-scrollbar/dist/ng-scrollbar.min.css">
+        <link rel="stylesheet" href="bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" type="text/css"/>
+        <link rel="stylesheet" media="all" href="style/style.css">
+
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.15/angular.min.js"></script>
+        <script src="bower_components/ng-scrollbars/dist/scrollbars.min.js"></script>
+        <script src="bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
+        <script src="js/controller.js"></script>
+    </head>
+
+    <body ng-app="TestApp">
+        <div class="cover">
+            <div class="opacity"></div>
+            <div class="content"  ng-controller="TodoListCtrl">
+                <header>
+                    <h1>todo list {{todos.total ? todos.total : todos.length}}</h1>
+                </header>
+                <div class="sticker">
+                    <div class="sticker_item __all" data-ng-click="setSelectedTodos(undefined)"  ng-class="{'__active':stateFilter == undefined}">
+                        <p>all</p>
+                    </div>
+                    <div class="sticker_item __to-do" data-ng-click="setSelectedTodos(false)" ng-class="{'__active':stateFilter == false}">
+                        <p>to do</p>
+                    </div>
+                    <div class="sticker_item __done" data-ng-click="setSelectedTodos(true)" ng-class="{'__active':stateFilter == true}">
+                        <p>done</p>
+                    </div>
+                </div>
+                <div class="list-back __top"></div>
+                <div class="list-back"></div>
+                <div class="list scrollme" ng-scrollbars ng-scrollbars-config="config" >
+                    <div ng-if="todo.toShow" class="list_item {{todo.color}}" ng-repeat="todo in todos | Shown:stateFilter  track by $index" >
+                        <p ng-class="{'ready':todo.done, 'inprogress':!todo.done}" ng-click="changeState(todo.id)" class="item-wr"><span>{{$index+1}}</span>)  <label >{{todo.text}}</label></p>
+                        <button type="button" name="button" class="btn icon-trash" ng-click="removeTodo(todo.id)"></button>
+                    </div>
+                </div>
+                <form class="new">
+                    <div class="color-circle">
+                        <div ng-class="{'__active':colorText == 'standart'}" class="color-circle_item standart __active" ng-click="changeColor('standart')"></div>
+                        <div ng-class="{'__active':colorText == 'red'}" class="color-circle_item red" ng-click="changeColor('red')"></div>
+                        <div ng-class="{'__active':colorText == 'green'}" class="color-circle_item green"  ng-click="changeColor('green')"></div>
+                        <div ng-class="{'__active':colorText == 'black'}" class="color-circle_item black"  ng-click="changeColor('black')"></div>
+                        <div ng-class="{'__active':colorText == 'grey'}" class="color-circle_item grey"  ng-click="changeColor('grey')"></div>
+                        <div ng-class="{'__active':colorText == 'pink'}" class="color-circle_item pink"  ng-click="changeColor('pink')"></div>
+                        <div class="pen-style {{colorText}}"></div>
+                        <span class="icon-pen"></span>
+                    </div>
+                    <input type="text" ng-model="todoText">
+                    <button class="btn icon-paperplane" ng-click="addTodo()"></button>
+                </form>
+            </div>
+        </div>
+    </body>
+
+
+</html>
