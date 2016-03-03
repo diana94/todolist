@@ -1,3 +1,5 @@
+(function () {
+window.onload = function() {
 var app = angular.module("TestApp", ['ngScrollbars']);
 
 app.controller("TodoListCtrl", TodoListCtrl);
@@ -56,8 +58,7 @@ function TodoListCtrl($scope) {
         $scope.colorText = color;
     }
 }
-(function () {
-window.onload = function() {
+
     function Shown() {
         return function(items, stateFilter) {
             items.total = 0;
