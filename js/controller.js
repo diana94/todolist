@@ -19,7 +19,7 @@ function TodoListCtrl($scope) {
             setHeight: 200,
             scrollInertia: 1
         }
-        // $scope.countTodo = $scope.todos.length;
+        $scope.todos.total = $scope.todos.length;
     $scope.addTodo = function() {
         $scope.todos.push({
             text: $scope.todoText,
