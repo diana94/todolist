@@ -19,18 +19,19 @@ function TodoListCtrl($scope) {
             setHeight: 200,
             scrollInertia: 1
         }
-    $scope.todos = [
-        {text:'Learn AngularJS', done:false, id: Date.now(), color:'standart'}
-        ];
+        // $scope.countTodo = $scope.todos.length;
     $scope.addTodo = function() {
-        $scope.todos.push({
-            text: $scope.todoText,
-            done: false,
-            id: new Date(),
-            color: $scope.colorText
-        });
-        $scope.todoText = '';
-        localStorage.setItem('todos', JSON.stringify($scope.todos));
+        if($scope.todoText && $scope.todoText.length) {
+            $scope.todos.push({
+                text: $scope.todoText,
+                done: false,
+                id: new Date(),
+                color: $scope.colorText
+            });
+            $scope.todoText = '';
+            localStorage.setItem('todos', JSON.stringify($scope.todos));
+        }
+        return;
     };
 
     $scope.removeTodo = function(id) {
