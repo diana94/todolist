@@ -8,7 +8,7 @@ function TodoListCtrl($scope) {
     $scope.stateFilter = undefined;
     $scope.colorText = 'standart';
     $scope.saved = localStorage.getItem('todos');
-    $scope.todos = JSON.parse($scope.saved);
+    $scope.todos = JSON.parse($scope.saved) || [];
     localStorage.setItem('todos', JSON.stringify($scope.todos));
     $scope.config = {
             autoHideScrollbar: false,
