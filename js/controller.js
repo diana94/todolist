@@ -19,7 +19,6 @@ function TodoListCtrl($scope) {
             setHeight: 200,
             scrollInertia: 1
         }
-    $scope.todos.total = 0;
     $scope.addTodo = function() {
         if($scope.todoText && $scope.todoText.length) {
             $scope.todos.push({
@@ -63,16 +62,18 @@ function TodoListCtrl($scope) {
 
 function Shown() {
     return function(items, stateFilter) {
-        items.total = 0;
-        for (var i = 0; i < items.length; i++) {
-            if (!angular.isDefined(stateFilter)) {
-                items[i].toShow = true;
-                items.total++;
-            } else {
-                items[i].toShow = (items[i].done == stateFilter);
-                if (items[i].toShow) items.total++;
+        if(items.total) {
+            items.total = 0;
+            for (var i = 0; i < items.length; i++) {
+                if (!angular.isDefined(stateFilter)) {
+                    items[i].toShow = true;
+                    items.total++;
+                } else {
+                    items[i].toShow = (items[i].done == stateFilter);
+                    if (items[i].toShow) items.total++;
+                }
             }
+            return items;
         }
-        return items;
     }
 }
