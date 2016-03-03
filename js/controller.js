@@ -1,5 +1,3 @@
-(function () {
-window.onload = function() {
 var app = angular.module("TestApp", ['ngScrollbars']);
 
 app.controller("TodoListCtrl", TodoListCtrl);
@@ -21,6 +19,9 @@ function TodoListCtrl($scope) {
             setHeight: 200,
             scrollInertia: 1
         }
+    $scope.todos = [
+        {text:'Learn AngularJS', done:false, id: Date.now(), color:'standart'}
+        ];
     $scope.addTodo = function() {
         $scope.todos.push({
             text: $scope.todoText,
@@ -59,20 +60,18 @@ function TodoListCtrl($scope) {
     }
 }
 
-    function Shown() {
-        return function(items, stateFilter) {
-            items.total = 0;
-            for (var i = 0; i < items.length; i++) {
-                if (!angular.isDefined(stateFilter)) {
-                    items[i].toShow = true;
-                    items.total++;
-                } else {
-                    items[i].toShow = (items[i].done == stateFilter);
-                    if (items[i].toShow) items.total++;
-                }
+function Shown() {
+    return function(items, stateFilter) {
+        items.total = 0;
+        for (var i = 0; i < items.length; i++) {
+            if (!angular.isDefined(stateFilter)) {
+                items[i].toShow = true;
+                items.total++;
+            } else {
+                items[i].toShow = (items[i].done == stateFilter);
+                if (items[i].toShow) items.total++;
             }
-            return items;
         }
+        return items;
     }
 }
-})();
