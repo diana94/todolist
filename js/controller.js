@@ -57,7 +57,7 @@ function TodoListCtrl($scope) {
     }
 }
 (function () {
-window.onload = function {
+window.onload = function() {
     function Shown() {
         return function(items, stateFilter) {
             items.total = 0;
