@@ -56,7 +56,8 @@ function TodoListCtrl($scope) {
         $scope.colorText = color;
     }
 }
-$(document).ready(function(){
+(function () {
+window.onload = function {
     function Shown() {
         return function(items, stateFilter) {
             items.total = 0;
@@ -73,3 +74,4 @@ $(document).ready(function(){
         }
     }
 }
+})();
