@@ -62,7 +62,7 @@ function TodoListCtrl($scope) {
 
 function Shown() {
     return function(items, stateFilter) {
-        if(items.total) {
+        if(items) {
             items.total = 0;
             for (var i = 0; i < items.length; i++) {
                 if (!angular.isDefined(stateFilter)) {
