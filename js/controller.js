@@ -10,7 +10,6 @@ function TodoListCtrl($scope) {
     $scope.saved = localStorage.getItem('todos');
     $scope.todos = JSON.parse($scope.saved);
     localStorage.setItem('todos', JSON.stringify($scope.todos));
-    $scope.todos.total = 0;
     $scope.config = {
             autoHideScrollbar: false,
             theme: 'minimal-dark',
@@ -57,19 +56,20 @@ function TodoListCtrl($scope) {
         $scope.colorText = color;
     }
 }
-
-function Shown() {
-    return function(items, stateFilter) {
-        items.total = 0;
-        for (var i = 0; i < items.length; i++) {
-            if (!angular.isDefined(stateFilter)) {
-                items[i].toShow = true;
-                items.total++;
-            } else {
-                items[i].toShow = (items[i].done == stateFilter);
-                if (items[i].toShow) items.total++;
+$(document).ready(function(){
+    function Shown() {
+        return function(items, stateFilter) {
+            items.total = 0;
+            for (var i = 0; i < items.length; i++) {
+                if (!angular.isDefined(stateFilter)) {
+                    items[i].toShow = true;
+                    items.total++;
+                } else {
+                    items[i].toShow = (items[i].done == stateFilter);
+                    if (items[i].toShow) items.total++;
+                }
             }
+            return items;
         }
-        return items;
     }
 }
