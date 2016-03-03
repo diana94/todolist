@@ -10,6 +10,7 @@ function TodoListCtrl($scope) {
     $scope.saved = localStorage.getItem('todos');
     $scope.todos = JSON.parse($scope.saved);
     localStorage.setItem('todos', JSON.stringify($scope.todos));
+    $scope.todos.total = 0;
     $scope.config = {
             autoHideScrollbar: false,
             theme: 'minimal-dark',
@@ -19,7 +20,6 @@ function TodoListCtrl($scope) {
             setHeight: 200,
             scrollInertia: 1
         }
-        $scope.todos.total = $scope.todos.length;
     $scope.addTodo = function() {
         $scope.todos.push({
             text: $scope.todoText,
