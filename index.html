@@ -24,7 +24,7 @@
             <div class="opacity"></div>
             <div class="content"  ng-controller="TodoListCtrl">
                 <header>
-                    <h1>todo list {{todos.total ? todos.total : todos.length}}</h1>
+                    <h1>todo list {{todos.total }}</h1>
                 </header>
                 <div class="sticker">
                     <div class="sticker_item __all" data-ng-click="setSelectedTodos(undefined)"  ng-class="{'__active':stateFilter == undefined}">
