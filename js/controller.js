@@ -4,11 +4,13 @@ app.controller("TodoListCtrl", TodoListCtrl);
 
 app.filter("Shown", Shown);
 
+app.filter("Sort", Sort);
+
 function TodoListCtrl($scope) {
     $scope.stateFilter = undefined;
     $scope.colorText = 'standart';
     $scope.saved = localStorage.getItem('todos');
-    $scope.todos = JSON.parse($scope.saved) || [];
+    $scope.todos = JSON.parse($scope.saved);
     localStorage.setItem('todos', JSON.stringify($scope.todos));
     $scope.config = {
             autoHideScrollbar: false,
@@ -19,6 +21,7 @@ function TodoListCtrl($scope) {
             setHeight: 200,
             scrollInertia: 1
         }
+        // $scope.countTodo = $scope.todos.length;
     $scope.addTodo = function() {
         if($scope.todoText && $scope.todoText.length) {
             $scope.todos.push({
@@ -52,7 +55,6 @@ function TodoListCtrl($scope) {
     }
     $scope.setSelectedTodos = function(state) {
         $scope.stateFilter = state;
-
     }
 
     $scope.changeColor = function(color) {
@@ -62,18 +64,39 @@ function TodoListCtrl($scope) {
 
 function Shown() {
     return function(items, stateFilter) {
-        if(items) {
-            items.total = 0;
-            for (var i = 0; i < items.length; i++) {
-                if (!angular.isDefined(stateFilter)) {
-                    items[i].toShow = true;
-                    items.total++;
-                } else {
-                    items[i].toShow = (items[i].done == stateFilter);
-                    if (items[i].toShow) items.total++;
-                }
+        items.total = 0;
+        for (var i = 0; i < items.length; i++) {
+            if (!angular.isDefined(stateFilter)) {
+                items[i].toShow = true;
+                items.total++;
+            } else {
+                items[i].toShow = (items[i].done == stateFilter);
+                if (items[i].toShow) items.total++;
             }
-            return items;
         }
+        return items;
+    }
+}
+
+function Sort() {
+    return function(items) {
+        var resDone =[];
+        var resNotDone =[];
+        for (var i = 0; i < items.length; i++) {
+                if(items[i].done)
+                    resDone[resDone.length] =items[i];
+                else resNotDone[resNotDone.length] =items[i];
+        }
+        resDone.sort(function(a, b){
+            return a.id >= b.id;
+        });
+
+        resNotDone.sort(function(a, b){
+            return a.id >= b.id;
+        });
+
+        items = [].concat(resNotDone, resDone);
+
+        return items;
     }
 }
