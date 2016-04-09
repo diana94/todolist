@@ -77,11 +77,16 @@ function todoListCtrl($scope, localStorageService) {
 function shown() {
     return function(items, stateFilter) {
         if (items){
+            items.total = 0;
             _.each(items, function(it){
-                if (angular.isDefined(stateFilter))
+                if (angular.isDefined(stateFilter)){
                     it.toShow = (it.done == stateFilter);
-                else
+                    if (it.toShow) items.total++;
+                }
+                else{
                     it.toShow = true;
+                    items.total++;
+                }
             });
         }
         return items;
