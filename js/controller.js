@@ -1,18 +1,24 @@
-var app = angular.module("TestApp", ['ngScrollbars']);
+var app = angular.module("TestApp", ['ngScrollbars', 'LocalStorageModule']);
 
-app.controller("TodoListCtrl", TodoListCtrl);
+app.controller("TodoListCtrl", todoListCtrl);
 
-app.filter("Shown", Shown);
+app.filter("Shown", shown);
 
-app.filter("Sort", Sort);
+app.filter("Sort", sort);
 
-function TodoListCtrl($scope) {
-    $scope.stateFilter = undefined;
-    $scope.colorText = 'standart';
-    $scope.saved = localStorage.getItem('todos');
-    $scope.todos = JSON.parse($scope.saved);
-    localStorage.setItem('todos', JSON.stringify($scope.todos));
-    $scope.config = {
+function todoListCtrl($scope, localStorageService) {
+
+    $scope.addTodo = addTodo;
+    $scope.removeTodo = removeTodo;
+    $scope.changeState = changeState;
+    $scope.setSelectedTodos = setSelectedTodos;
+    $scope.changeColor = changeColor;
+
+    activate();
+
+    function activate(){
+        $scope.colorText = 'standart';
+        $scope.config = {
             autoHideScrollbar: false,
             theme: 'minimal-dark',
             advanced: {
@@ -20,83 +26,94 @@ function TodoListCtrl($scope) {
             },
             setHeight: 200,
             scrollInertia: 1
-        }
-        // $scope.countTodo = $scope.todos.length;
-    $scope.addTodo = function() {
+        };
+        var tmpSaved = localStorageService.get('todos');
+        $scope.todos = tmpSaved ? tmpSaved : [];
+    };
+
+    function addTodo() {
         if($scope.todoText && $scope.todoText.length) {
             $scope.todos.push({
+                id: guid(),
                 text: $scope.todoText,
-                done: false,
-                id: new Date(),
-                color: $scope.colorText
+                color: $scope.colorText,
+                updatedAt: new Date(),
+                done: false
             });
             $scope.todoText = '';
-            localStorage.setItem('todos', JSON.stringify($scope.todos));
+            localStorageService.set('todos', $scope.todos);
         }
-        return;
     };
 
-    $scope.removeTodo = function(id) {
-        for (var i = 0; i < $scope.todos.length; i++) {
-            if ($scope.todos[i].id == id) {
-                $scope.todos.splice(i, 1);
-                localStorage.setItem('todos', JSON.stringify($scope.todos));
-                $scope.$broadcast('rebuild:me');
-            }
-        }
+    function removeTodo(id) {
+        $scope.todos = _.filter($scope.todos, function(it) { return it.id != id; });
+        localStorageService.set('todos', $scope.todos);
+        $scope.$broadcast('rebuild:me');
     };
-    $scope.changeState = function(id) {
-        for (var i = 0; i < $scope.todos.length; i++) {
-            if ($scope.todos[i].id == id) {
-                $scope.todos[i].done = !$scope.todos[i].done;
-                localStorage.setItem('todos', JSON.stringify($scope.todos));
-            }
-        }
-    }
-    $scope.setSelectedTodos = function(state) {
+
+    function changeState(id) {
+        var todo = _.find($scope.todos, { id : id });
+        todo.done = !todo.done;
+        todo.updatedAt = new Date();
+        localStorageService.set('todos', $scope.todos);
+    };
+
+    function setSelectedTodos(state) {
         $scope.stateFilter = state;
-    }
+    };
 
-    $scope.changeColor = function(color) {
+    function changeColor(color) {
         $scope.colorText = color;
-    }
-}
+    };
 
-function Shown() {
+    function guid() {
+        function s4() {
+            return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+        };
+        return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+    };
+};
+
+function shown() {
     return function(items, stateFilter) {
-        items.total = 0;
-        for (var i = 0; i < items.length; i++) {
-            if (!angular.isDefined(stateFilter)) {
-                items[i].toShow = true;
-                items.total++;
-            } else {
-                items[i].toShow = (items[i].done == stateFilter);
-                if (items[i].toShow) items.total++;
-            }
+        if (items){
+            items.total = 0;
+            _.each(items, function(it){
+                if (angular.isDefined(stateFilter)){
+                    it.toShow = (it.done == stateFilter);
+                    if (it.toShow) items.total++;
+                }
+                else{
+                    it.toShow = true;
+                    items.total++;
+                }
+            });
         }
         return items;
-    }
-}
+    };
+};
 
-function Sort() {
+function sort() {
     return function(items) {
         var resDone =[];
         var resNotDone =[];
-        for (var i = 0; i < items.length; i++) {
-                if(items[i].done)
-                    resDone[resDone.length] =items[i];
-                else resNotDone[resNotDone.length] =items[i];
-        }
-        resDone.sort(function(a, b){
-            return a.id >= b.id;
+        _.each(items, function(it){
+            if (it.done)
+                resDone.push(it);
+            else
+                resNotDone.push(it);
         });
-
-        resNotDone.sort(function(a, b){
-            return a.id >= b.id;
-        });
-
-        items = [].concat(resNotDone, resDone);
-
-        return items;
-    }
-}
+        function parseDate(val){
+            return (typeof val === 'string') ? Date.parse(val) : val;
+        };
+        function doneComparator(a, b){
+            return parseDate(a.updatedAt) >= parseDate(b.updatedAt);
+        };
+        function notDoneComparator(a, b){
+            return parseDate(a.updatedAt) <= parseDate(b.updatedAt);
+        };
+        resDone.sort(doneComparator);
+        resNotDone.sort(notDoneComparator);
+        return [].concat(resNotDone, resDone);
+    };
+};
