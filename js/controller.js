@@ -8,6 +8,7 @@ app.filter("Sort", Sort);
 
 function TodoListCtrl($scope) {
     $scope.stateFilter = undefined;
+    $scope.bla = undefined;
     $scope.colorText = 'standart';
     $scope.saved = localStorage.getItem('todos');
     $scope.todos = JSON.parse($scope.saved);
@@ -82,6 +83,7 @@ function Sort() {
     return function(items) {
         var resDone =[];
         var resNotDone =[];
+        var temp;
         for (var i = 0; i < items.length; i++) {
                 if(items[i].done)
                     resDone[resDone.length] =items[i];
