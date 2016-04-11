@@ -104,16 +104,10 @@ function sort() {
                 resNotDone.push(it);
         });
         function parseDate(val){
-            return (typeof val === 'string') ? Date.parse(val) : val;
+            return (typeof val === 'string') ? new Date(val) : val;
         };
-        function doneComparator(a, b){
-            return parseDate(a.updatedAt) >= parseDate(b.updatedAt);
-        };
-        function notDoneComparator(a, b){
-            return parseDate(a.updatedAt) <= parseDate(b.updatedAt);
-        };
-        resDone.sort(doneComparator);
-        resNotDone.sort(notDoneComparator);
+        resDone = _.sortBy(resDone, function(it) { return parseDate(it.updatedAt); });
+        resNotDone = _.sortBy(resNotDone, function(it) { return parseDate(it.updatedAt); }).reverse();
         return [].concat(resNotDone, resDone);
     };
 };
