@@ -1,16 +1,31 @@
 .list {
-    margin: 70px auto 50px;
-    background: url("../i/list.jpg") repeat;
+    margin: 0 auto 50px;
+    background: white;
     width: 560px;
-    max-height: calc(60vh);
+    height: calc(60vh);
     font-family: Arial, Arial, Helvetica, sans-serif;
-    // overflow: hidden;
     position: relative;
+    border: 1px solid #dedede;
+    border-top: 0;
+    box-sizing: border-box;
+
+    &:before,
+    &:after {
+        content: "";
+        height: calc(60vh);
+        position: absolute;
+        border-left: 1px solid #ffaa9f;
+        top: 0;
+        left: 50px;
+    }
+    &:before { left: 52px; }
+
     &_item {
         color: #135194;
         font-size: 18px;
         padding: 0px 25px 0px 70px;
-        &:first-child { padding-top: 15px;}
+        border-bottom: 1px dotted #ccc;
+        &:first-child { padding-top: 5px;}
         &.standart { color: #135194;}
         &.red { color: #D81507;}
         &.green { color: #069C0C;}
@@ -19,18 +34,18 @@
         &.pink { color: #E62265;}
         label { cursor: pointer;}
     }
+
     &-back {
-        width: 560px;
-        height: calc(60vh);
-        background: url("../i/list.jpg") repeat;
-        margin: 70px auto 50px;
-        top: 44px;
+        &:extend(.list);
+        box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        top: 80px;
         left: 50%;
-        margin-left: -281px;
+        margin-left: -284px;
         position: absolute;
+        height: calc(~'60vh + 104px');
         &.__top {
-            top: 41px;
-            margin-left: -283px;
+            top: 82px;
+            margin-left: -286px;
         }
     }
     &:focus { outline: none; }
@@ -38,7 +53,7 @@
         float: right;
         position: relative;
         border: none;
-        padding-top: 13px;
+        padding-top: 8px;
         color: #565656;
         font-size: 22px;
         &:hover { animation: shake-trash 0.3s ease 2;}

@@ -1,19 +1,18 @@
 .sticker {
-    transform: rotate(-90deg);
     display: inline-block;
     position: absolute;
     top: 8px;;
-    left: 40%;
+    left: -70px;
     opacity: 0.888;
     z-index: 9;
     &_item {
-        text-align: right;
+        text-align: left;
         cursor: pointer;
         width: 70px;
         height: 35px;
         color: white;
         position: relative;
-        padding: 4px 8px 0px 0px;
+        padding: 4px 0 0 8px;
         box-sizing: border-box;
         margin-bottom: 10px;
         font-size: 20px;
@@ -22,9 +21,9 @@
         &.__all{ background: rgba(55, 214, 55, 0.67);}
         &.__to-do { background: rgba(239, 239, 70, 0.76);}
         &.__done { background: rgb(234, 86, 136);}
-        &:hover { transform: rotateY(30deg); }
+        &:hover { transform: rotateY(-20deg); }
         &.__active {
-            right: 18px;
+            left: 0;
             width: 87px;
             &:hover { transform: none;}
         }

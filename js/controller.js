@@ -4,8 +4,11 @@ app.controller("TodoListCtrl", TodoListCtrl);
 
 app.filter("Shown", Shown);
 
+app.filter("Sort", Sort);
+
 function TodoListCtrl($scope) {
     $scope.stateFilter = undefined;
+    $scope.bla = undefined;
     $scope.colorText = 'standart';
     $scope.saved = localStorage.getItem('todos');
     $scope.todos = JSON.parse($scope.saved);
@@ -21,14 +24,17 @@ function TodoListCtrl($scope) {
         }
         // $scope.countTodo = $scope.todos.length;
     $scope.addTodo = function() {
-        $scope.todos.push({
-            text: $scope.todoText,
-            done: false,
-            id: new Date(),
-            color: $scope.colorText
-        });
-        $scope.todoText = '';
-        localStorage.setItem('todos', JSON.stringify($scope.todos));
+        if($scope.todoText && $scope.todoText.length) {
+            $scope.todos.push({
+                text: $scope.todoText,
+                done: false,
+                id: new Date(),
+                color: $scope.colorText
+            });
+            $scope.todoText = '';
+            localStorage.setItem('todos', JSON.stringify($scope.todos));
+        }
+        return;
     };
 
     $scope.removeTodo = function(id) {
@@ -50,7 +56,6 @@ function TodoListCtrl($scope) {
     }
     $scope.setSelectedTodos = function(state) {
         $scope.stateFilter = state;
-
     }
 
     $scope.changeColor = function(color) {
@@ -70,6 +75,30 @@ function Shown() {
                 if (items[i].toShow) items.total++;
             }
         }
+        return items;
+    }
+}
+
+function Sort() {
+    return function(items) {
+        var resDone =[];
+        var resNotDone =[];
+        var temp;
+        for (var i = 0; i < items.length; i++) {
+                if(items[i].done)
+                    resDone[resDone.length] =items[i];
+                else resNotDone[resNotDone.length] =items[i];
+        }
+        resDone.sort(function(a, b){
+            return a.id >= b.id;
+        });
+
+        resNotDone.sort(function(a, b){
+            return a.id >= b.id;
+        });
+
+        items = [].concat(resNotDone, resDone);
+
         return items;
     }
 }

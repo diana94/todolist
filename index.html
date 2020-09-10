@@ -16,7 +16,9 @@
         <script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.15/angular.min.js"></script>
         <script src="bower_components/ng-scrollbars/dist/scrollbars.min.js"></script>
         <script src="bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
+        <script src="bower_components/superplaceholder/src/superplaceholder.js"></script>
         <script src="js/controller.js"></script>
+        <script src="js/script.js"></script>
     </head>
 
     <body ng-app="TestApp">
@@ -26,25 +28,7 @@
                 <header>
                     <h1>todo list {{todos.total ? todos.total : todos.length}}</h1>
                 </header>
-                <div class="sticker">
-                    <div class="sticker_item __all" data-ng-click="setSelectedTodos(undefined)"  ng-class="{'__active':stateFilter == undefined}">
-                        <p>all</p>
-                    </div>
-                    <div class="sticker_item __to-do" data-ng-click="setSelectedTodos(false)" ng-class="{'__active':stateFilter == false}">
-                        <p>to do</p>
-                    </div>
-                    <div class="sticker_item __done" data-ng-click="setSelectedTodos(true)" ng-class="{'__active':stateFilter == true}">
-                        <p>done</p>
-                    </div>
-                </div>
-                <div class="list-back __top"></div>
-                <div class="list-back"></div>
-                <div class="list scrollme" ng-scrollbars ng-scrollbars-config="config" >
-                    <div ng-if="todo.toShow" class="list_item {{todo.color}}" ng-repeat="todo in todos | Shown:stateFilter  track by $index" >
-                        <p ng-class="{'ready':todo.done, 'inprogress':!todo.done}" ng-click="changeState(todo.id)" class="item-wr"><span>{{$index+1}}</span>)  <label >{{todo.text}}</label></p>
-                        <button type="button" name="button" class="btn icon-trash" ng-click="removeTodo(todo.id)"></button>
-                    </div>
-                </div>
+
                 <form class="new">
                     <div class="color-circle">
                         <div ng-class="{'__active':colorText == 'standart'}" class="color-circle_item standart __active" ng-click="changeColor('standart')"></div>
@@ -56,9 +40,31 @@
                         <div class="pen-style {{colorText}}"></div>
                         <span class="icon-pen"></span>
                     </div>
-                    <input type="text" ng-model="todoText">
+                    <input type="text" id="input" placeholder="+ Add new goal" ng-model="todoText">
                     <button class="btn icon-paperplane" ng-click="addTodo()"></button>
                 </form>
+                <div class="list-back __top"></div>
+                <div class="list-back">
+                    <div class="sticker">
+                        <div class="sticker_item __all" data-ng-click="setSelectedTodos(undefined)"  ng-class="{'__active':stateFilter == undefined}">
+                            <p>all</p>
+                        </div>
+                        <div class="sticker_item __to-do" data-ng-click="setSelectedTodos(false)" ng-class="{'__active':stateFilter == false}">
+                            <p>to do</p>
+                        </div>
+                        <div class="sticker_item __done" data-ng-click="setSelectedTodos(true)" ng-class="{'__active':stateFilter == true}">
+                            <p>done</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="list scrollme" ng-scrollbars ng-scrollbars-config="config" >
+
+                    <div ng-if="todo.toShow" class="list_item {{todo.color}}" ng-repeat="todo in todos | Shown:stateFilter | Sort track by $index" >
+                        <p ng-class="{'ready':todo.done, 'inprogress':!todo.done}" ng-click="changeState(todo.id)" class="item-wr">  <label >{{todo.text}}</label></p>
+                        <button type="button" name="button" class="btn icon-trash" ng-click="removeTodo(todo.id)"></button>
+                    </div>
+                </div>
+
             </div>
         </div>
     </body>

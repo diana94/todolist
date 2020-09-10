@@ -47,31 +47,51 @@ header {
 .new {
     margin: auto;
     width: 560px;
+    position: relative;
+    background: white;
+    z-index: 9;
+    border: 1px solid #dedede;
+    border-bottom: 1px dotted #ccc;
+    padding: 10px 25px 10px 70px;
+    box-sizing: border-box;
+
+    &:before,
+    &:after {
+        content: "";
+        height: calc(60vh);
+        position: absolute;
+        border-left: 1px solid #ffaa9f;
+        top: 0;
+        left: 50px;
+    }
+    &:before { left: 52px; }
+
     input {
-        width: 70%;
-        padding: 7px 30px 6px 34px;
-        height: 22px;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 7px 30px 6px 0;
+        height: 37px;
         line-height: 28px;
         color: #555;
-        font: 400 13px/1 Arial, 'Nimbus Sans L', Helvetica, sans-serif;
-        border: 1px solid #aaa;
+        font: 400 18px/1 Arial, 'Nimbus Sans L', Helvetica, sans-serif;
+        border: none;
         background: #FFF;
-        border-radius: 13px;
     }
     .btn {
-        display: inline-block;
+        position: absolute;
         font-size: 22px;
         color: #565656;
         border: none;
-        vertical-align: -4px;
-        margin-left: 30px;
+        right: 15px;
+        bottom: 18px;
+        z-index: 99;
         &:hover {
             animation: shake-paperplane 0.4s infinite linear alternate;
         }
     }
 }
 .pen-style {
-    width: 45%;
+    width: 56%;
     border: 2px solid black;
     display: inline-block;
     &.standart { border-color: #135194;}
